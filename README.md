@@ -19,11 +19,11 @@ Upload one original chest X-ray image to view the classifier's prediction (**NOR
 
 ### Classification dashboard
 
-![Classification dashboard showing the original X-ray, class probability, pneumonia risk score, and prediction cards](https://private-us-east-1.manuscdn.com/sessionFile/MQeJrZn2pfJnanoKIC1tLQ/sandbox/olCpt4JOWlC9wLPDwuFrIa-images_1793801090257_na1fn_L2hvbWUvdWJ1bnR1L3hyYXktcG5ldW1vbmlhLWdpdGh1Yi9hc3NldHMvYXBwLXNjcmVlbnNob3Q.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvTVFlSnJabjJwZkpuYW5vS0lDMXRMUS9zYW5kYm94L29sQ3B0NEpPV2xDOXdMUER3dUZySWEtaW1hZ2VzXzE3OTM4MDEwOTAyNTdfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwzaHlZWGt0Y0c1bGRXMXZibWxoTFdkcGRHaDFZaTloYzNObGRITXZZWEJ3TFhOamNtVmxibk5vYjNRLnBuZyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5NjA4MzIwMH19fV19&Key-Pair-Id=K2QY5QTL8JSY6C&Signature=MEUCIQCXQnEpZXMJLWBlBlsEoEHH21ch6o5m22xLY37nLQGJpQIgRIBNtud-fD2pUMVLQykxTlbJN6r7l9-odinmCq4WPOs_)
+![Classification dashboard showing the original X-ray, class probability, pneumonia risk score, and prediction cards](assets/Screenshot%202026-11-04%20201249.png)
 
 ### Segmentation results
 
-![Segmentation dashboard showing the input X-ray, mask overlay, probability heatmap, and affected-area estimate](https://private-us-east-1.manuscdn.com/sessionFile/MQeJrZn2pfJnanoKIC1tLQ/sandbox/olCpt4JOWlC9wLPDwuFrIa-images_1793801090257_na1fn_L2hvbWUvdWJ1bnR1L3hyYXktcG5ldW1vbmlhLWdpdGh1Yi9hc3NldHMvc2VnbWVudGF0aW9uLXNjcmVlbnNob3Q.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvTVFlSnJabjJwZkpuYW5vS0lDMXRMUS9zYW5kYm94L29sQ3B0NEpPV2xDOXdMUER3dUZySWEtaW1hZ2VzXzE3OTM4MDEwOTAyNTdfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwzaHlZWGt0Y0c1bGRXMXZibWxoTFdkcGRHaDFZaTloYzNObGRITXZjMlZuYldWdWRHRjBhVzl1TFhOamNtVmxibk5vYjNRLnBuZyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5NjA4MzIwMH19fV19&Key-Pair-Id=K2QY5QTL8JSY6C&Signature=MEQCICU7BQ45~xyusu5Hf2OqsKuUM~dvjthDRo4fVLyYux~5AiAox7lX2~LL943Cnq16AncFA4IiUm5QVscsZwTq~wH6qg__)
+![Segmentation dashboard showing the input X-ray, mask overlay, probability heatmap, and affected-area estimate](assets/Screenshot%202026-11-04%20201334.png)
 
 ## Inference workflow
 
@@ -65,8 +65,8 @@ The segmentation model can produce an overlay for a classification-test image, b
 ├── check_data.py               # Dataset inspection utility
 ├── requirements.txt            # Python dependencies
 ├── assets/
-│   ├── app-screenshot.png
-│   └── segmentation-screenshot.png
+│   ├── Screenshot 2026-11-04 201249.png
+│   └── Screenshot 2026-11-04 201334.png
 ├── data/                       # Local datasets; not included
 ├── models/                     # Local checkpoints; not included
 └── results/                    # Local outputs; not included
