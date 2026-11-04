@@ -1,89 +1,146 @@
-Chest X-ray Pneumonia Analysis
+Chest X-ray Pneumonia Detection
 
-A Streamlit application that demonstrates chest X-ray classification and segmentation using PyTorch. Upload one chest X-ray to view the classifier's NORMAL/PNEUMONIA result, class probabilities, a pneumonia risk gauge, and—when the segmentation checkpoint is available—a highlighted region overlay and heatmap.
+<p align="left">
+<img src="assets/app-screenshot.png" alt="Chest X-ray pneumonia classification dashboard" width="800">
+</p>
+
+A deep-learning project built with PyTorch and Streamlit for chest X-ray image classification and segmentation. It combines a ResNet18-based classifier with a U-Net segmentation model to demonstrate two complementary computer-vision tasks in one interactive application.
 
 
-Research and education only. This project is not a medical device and must not be used for diagnosis, treatment, or clinical decision-making.
+Disclaimer: This project is for learning and research demonstrations only. It is not a medical device and must not be used for diagnosis, treatment, or clinical decision-making.
+
+<p>
+<img src="https://img.shields.io/badge/Deep%20Learning-PyTorch-ee4c2c?logo=pytorch&logoColor=white" alt="Deep Learning with PyTorch">
+  <img src="https://img.shields.io/badge/Interface-Streamlit-ff4b4b?logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Tasks-Classification%20%7C%20Segmentation-2563eb" alt="Classification and segmentation">
+</p>
+
+Project overview
+
+The application accepts one chest X-ray image and runs it through the available models. The classifier predicts NORMAL or PNEUMONIA and displays class probabilities and confidence. If the segmentation checkpoint is installed and segmentation is enabled, the app also displays a predicted mask overlay, probability heatmap, and estimated highlighted area.
+
+Model components
+
+Task
+Model
+Output
+Image classification
+ResNet18 classifier
+NORMAL / PNEUMONIA class probabilities and predicted label
+Image segmentation
+U-Net with a ResNet18 encoder
+Pixel-wise infection probability map, mask overlay, and heatmap
+
+
+
 
 Application screenshots
 
-Overview and classification
+Classification dashboard
 
 <p align="center">
-<img src="assets/app-screenshot.png" alt="Chest X-ray Pneumonia Analysis overview showing the X-ray, classification result, and risk score" width="900">
+<img src="assets/app-screenshot.png" alt="Overview tab with chest X-ray, classification probability, pneumonia risk score, and prediction cards" width="900">
 </p>
 
 Segmentation results
 
 <p align="center">
-<img src="assets/segmentation-screenshot.png" alt="Segmentation view showing the input X-ray, mask overlay, probability heatmap, and affected-area estimate" width="900">
+<img src="assets/segmentation-screenshot.png" alt="Segmentation tab with input X-ray, predicted mask overlay, probability heatmap, and affected-area estimate" width="900">
 </p>
 
-Features
+Machine-learning workflow
+
+1.
+Upload an original chest X-ray (.png, .jpg, or .jpeg) in the Streamlit app.
+
+2.
+The classifier preprocesses the image and returns NORMAL/PNEUMONIA probabilities.
+
+3.
+If the segmentation model is available and enabled, the same uploaded X-ray is resized and passed to the U-Net model.
+
+4.
+The app presents the classifier output and segmentation visualization in separate tabs.
+
+Upload the original X-ray image—not a segmentation mask. The app generates a mask prediction itself.
+
+Datasets and interpretation
+
+The project uses different datasets for the two tasks: the classification component is described in the app as using the Kaggle Chest X-Ray Pneumonia dataset, while segmentation uses COVID-QU-Ex infection-mask data. As a result, the models may behave differently on images outside the data distribution they were trained on.
+
+The segmentation model can still produce an overlay for an image from the classification test set, but an overlay appearing only confirms that inference ran. It does not prove that the highlighted region is accurate. Evaluate each model against data and ground truth appropriate to that task; for segmentation, compare predictions with the corresponding ground-truth masks where available.
+
+Technology stack
 
 •
-Image classification: ResNet18-based classifier with NORMAL and PNEUMONIA probabilities.
+Python — application and model code
 
 •
-Segmentation visualization: U-Net with a ResNet18 encoder to produce a mask overlay and probability heatmap.
+PyTorch / Torchvision — neural-network training and inference
 
 •
-Interactive review: Confidence, risk gauge, highlighted-area estimate, and downloadable summary/overlay.
+ResNet18 — image-classification backbone and U-Net encoder
 
 •
-Adjustable segmentation display: Mask sensitivity and overlay opacity controls.
+U-Net — pixel-wise segmentation architecture
 
-How the models and input work
+•
+Streamlit — interactive web application
 
-Upload a single original chest X-ray image (.png, .jpg, or .jpeg). The app sends that same image to both models; do not upload a segmentation mask. If segmentation is enabled and its checkpoint exists, the app generates an overlay.
+•
+OpenCV, NumPy, Pillow — image processing
 
-The classifier and segmentation model in this project were trained using different datasets (the app describes Kaggle Chest X-Ray Pneumonia for classification and COVID-QU-Ex infection masks for segmentation). Therefore, the segmentation model can produce an overlay on a classification-test image, but the overlay may not be reliable for that image. An overlay appearing only means the model ran; it does not establish that the marked region is correct. Evaluate each model with data appropriate to its training/evaluation set, and compare segmentation predictions with matching ground-truth masks when available.
+•
+Plotly — probability charts and risk gauge
 
-Project structure
+•
+Albumentations, scikit-learn, Matplotlib, Pandas, tqdm — training/evaluation utilities listed in requirements.txt
+
+Repository structure
 
 Plain Text
 
 
 .
-├── app.py
-├── cls_model.py
-├── config.py
-├── classification_train.py
-├── classification_evaluate.py
-├── segmentation_dataset.py
-├── segmentation_train.py
-├── predict.py
-├── check_data.py
-├── requirements.txt
-├── data/                         # datasets (not included here)
-├── models/
-│   ├── resnet18_pneumonia.pth    # classifier checkpoint required by app.py
-│   └── unet_seg.pth              # optional segmentation checkpoint
-├── results/                      # generated outputs, if used
-└── assets/
-    ├── app-screenshot.png
-    └── segmentation-screenshot.png
+├── app.py                      # Streamlit inference and dashboard
+├── cls_model.py                # Classification model definition
+├── config.py                   # Image sizes and project configuration
+├── classification_train.py     # Classifier training
+├── classification_evaluate.py  # Classifier evaluation
+├── segmentation_dataset.py      # Segmentation dataset/data loading
+├── segmentation_train.py       # U-Net training
+├── predict.py                  # Prediction utility
+├── check_data.py               # Dataset inspection utility
+├── requirements.txt            # Python dependencies
+├── assets/
+│   ├── app-screenshot.png
+│   └── segmentation-screenshot.png
+├── data/                       # Local datasets; not included
+├── models/                     # Local model checkpoints; not included
+└── results/                    # Local outputs; not included
 
 
 
-The exact contents of data/, models/, and results/ depend on your setup. Do not commit private or restricted datasets. Model checkpoints can be large; consider Git LFS or provide a documented download method if they exceed GitHub's file-size limits.
+Setup
 
-Requirements and installation
-
-Use a Python version supported by the PyTorch and torchvision builds available for your operating system. From the repository root, create and activate a virtual environment, then install the dependencies:
+Clone the repository and move into its directory:
 
 Bash
 
 
-python -m venv .venv
+git clone https://github.com/jayeshbaviskar345-ai/chest-xray-pneumonia-detection.git
+cd chest-xray-pneumonia-detection
 
 
+
+Create and activate a virtual environment, then install the dependencies from requirements.txt.
 
 Windows PowerShell:
 
 Plain Text
 
 
+python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
@@ -94,16 +151,17 @@ macOS / Linux:
 Bash
 
 
+python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
 
 
-If you need a specific CUDA-enabled PyTorch build, install the matching torch and torchvision versions using the official PyTorch installation selector before installing the remaining requirements.
+For a specific CUDA setup, install compatible torch and torchvision builds using the official PyTorch installation selector, then install the remaining project dependencies.
 
-Model checkpoints
+Checkpoints
 
-Before launching the application, make sure the classifier checkpoint exists at:
+The application expects the classifier checkpoint at:
 
 Plain Text
 
@@ -112,7 +170,7 @@ models/resnet18_pneumonia.pth
 
 
 
-The segmentation checkpoint is optional and should be placed at:
+The segmentation checkpoint is optional and expected at:
 
 Plain Text
 
@@ -121,11 +179,13 @@ models/unet_seg.pth
 
 
 
-The app reports an error if the classifier checkpoint is missing. If the segmentation checkpoint is absent, classification remains available and the segmentation view is disabled. Check config.py and the training scripts for the expected image sizes, dataset paths, and checkpoint-saving locations. The checkpoint architecture and label order must match the code (NORMAL, then PNEUMONIA).
+The classifier checkpoint is required to start the app. Without the segmentation checkpoint, classification remains available but segmentation is unavailable. Check config.py and the training scripts for dataset paths, input sizes, and checkpoint-saving locations. The checkpoint architecture and class order must match the code (NORMAL, then PNEUMONIA).
+
+Datasets and trained checkpoints are not included in this repository. Avoid committing private or restricted data. If sharing large checkpoint files, use Git LFS or provide a documented download method.
 
 Run the application
 
-From the repository root, with the virtual environment activated and the required classifier checkpoint in place:
+From the repository root, with the environment activated and the required classifier checkpoint in place:
 
 Bash
 
@@ -134,30 +194,27 @@ streamlit run app.py
 
 
 
-Open the local URL printed by Streamlit in your browser, upload an original chest X-ray, and review the Overview, Segmentation, and Report tabs. The segmentation tab requires the segmentation checkpoint and segmentation to be enabled in the sidebar.
+Open the local URL printed by Streamlit, upload an X-ray, and explore the Overview, Segmentation, and Report tabs. Segmentation additionally requires models/unet_seg.pth and the segmentation toggle enabled in the sidebar.
 
 Training and evaluation
 
-The repository includes scripts for classification and segmentation training/evaluation. Review config.py and each script before running them to set dataset paths and confirm the expected directory structure. Keep training, validation, and test data separated; do not evaluate on training images.
+The repository includes scripts for training and evaluating the classification and segmentation models. Before running them, review config.py and the relevant scripts to configure dataset paths and confirm the expected directory structure. Keep training, validation, and test splits separate, and evaluate segmentation with matching ground-truth masks where possible.
 
-Responsible use and privacy
-
-•
-This is an educational machine-learning demonstration, not a clinically validated tool.
+Responsible use
 
 •
-Model outputs may be wrong, biased, or inconsistent—especially when images differ from the training data.
+Predictions and visualizations may be incorrect and can be unreliable on data that differs from the training datasets.
 
 •
-Do not use predictions to make healthcare decisions.
+Do not use this software for clinical diagnosis or healthcare decisions.
 
 •
-Avoid uploading identifiable or sensitive medical images to any deployment unless you have appropriate authorization, safeguards, and consent.
+Do not upload identifiable medical images to a deployment unless you have proper authorization, consent, and safeguards.
 
 •
-Follow the dataset providers' terms and licenses when downloading, using, or redistributing data.
+Follow the dataset owners' terms and licenses when using or redistributing datasets.
 
 License
 
-No license is specified in this repository. Add a license file if you intend to allow others to use, modify, or distribute the code.
+No license is currently specified. Add a license file if you intend to grant others permission to use, modify, or distribute this project.
 
