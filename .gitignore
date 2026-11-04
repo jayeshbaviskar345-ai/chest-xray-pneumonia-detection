@@ -1,0 +1,23 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor settings
+.vscode/
+
+# Local datasets and generated results
+data/
+results/
+
+# Large model checkpoints (use Git LFS or a download link if you need to share them)
+models/*.pth
+models/*.pt
+models/*.ckpt
+
+# Secrets and local files
+.streamlit/secrets.toml
+.env
+.DS_Store
+Thumbs.db
